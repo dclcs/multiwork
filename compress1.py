@@ -11,7 +11,7 @@ import struct
 import numpy as np
 
 def read_from_origin():
-    with open("origin_compression.txt", 'r') as f:
+    with open("compress_data.txt", 'r') as f:
         source = f.read()
     return source
 
@@ -73,13 +73,13 @@ sdata = split_data(source)  # 将str每8个分成一个码子
 
 print("每8位作为一个码子长度为：",len(sdata))
 
-with open('result_original.txt', 'wb+') as f:
-    i = 0
-    while i < len(sdata):
-        wb = struct.pack('B', int(sdata[i],2))
-        f.write(wb)
-        i = i + 1
-print("...result_original.txt")
+# with open('result_original.txt', 'wb+') as f:
+#     i = 0
+#     while i < len(sdata):
+#         wb = struct.pack('B', int(sdata[i],2))
+#         f.write(wb)
+#         i = i + 1
+# print("...result_original.txt")
 
 dicts = dict(zip(refine_list(sdata), [i for i in range(len(refine_list(sdata)))]))
 
@@ -96,6 +96,7 @@ size = len(scode)
 with open('result.txt', 'wb+') as f:
     i = 0
     while i < size:
+        print(scode[i])
         wb = struct.pack('B', int(scode[i],2))
         f.write(wb)
         i = i + 1

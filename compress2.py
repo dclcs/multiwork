@@ -2,7 +2,7 @@
 from functions import *
 
 
-LZ77_WIN_SIZE = 64   #   8个码子 
+LZ77_WIN_SIZE = 15   #   8个码子 
 MAX_BIT = max_bit(LZ77_WIN_SIZE)
 data = read_from_origin()
 # data = "111111111101100011111111111000000000000000010000010010100100011001001001010001100000000000000001000000010000000100000000"
@@ -99,9 +99,6 @@ def LZ77_decompress(data, win):
             else:
                 temp = win+offset
                 win = temp[ll:]
-            # rr = rr + data[i][2 * MAX_BIT:]
-            # print(rr)
-            # print(win)
             for o in offset:
                 de_data.append(o)
     return de_data
@@ -139,23 +136,26 @@ def LZ77_compress(data):
 # print(cwin)
 compress_ = LZ77_compress(sdata)
 win = ["None" for i in range(LZ77_WIN_SIZE)]
-pdata = LZ77_decompress(compress_,win)
+# pdata = LZ77_decompress(compress_,win)
 # print(sdata)
-print(pdata==sdata)
+# print(pdata==sdata)
 # print(len(pdata))
 # print(len(data))
 # print(pdata)
-# print(compress_)
-# # print(compress_)
+print(len(data))
+print(len(sdata))
 temp = ""
 i = 0
-while i < len(pdata):
-    temp = temp + pdata[i]
+while i < len(compress_):
+    temp = temp + compress_[i]
     i = i + 1
-print(temp == data)
-# print(len(temp)/8)
-# with open("compress_data.txt", "w") as f:
-#     f.write(temp)
+# print(temp == data)
+print(len(temp))
+print(len(compress_))
+# # print(compress_)
+
+with open("compress_data.txt", "w") as f:
+    f.write(temp)
 # with open("p_data.txt", "w") as f:
 #     f.write(pdata)
 # print(temp)
