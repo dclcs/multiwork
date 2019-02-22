@@ -5,8 +5,7 @@ from functions import *
 LZ77_WIN_SIZE = 15   #   8个码子 
 MAX_BIT = max_bit(LZ77_WIN_SIZE)
 data = read_from_origin()
-# data = "111111111101100011111111111000000000000000010000010010100100011001001001010001100000000000000001000000010000000100000000"
-# print("data length :", len(data))
+
 sdata = split_data(data) 
 win = ["None" for i in range(LZ77_WIN_SIZE)]
 NUM_DICTS = init_convert_dic(LZ77_WIN_SIZE)
@@ -57,7 +56,7 @@ def compare_win(cwin, win, s_idx):
                     # print(search)
                     win[0:LZ77_WIN_SIZE - opos - 1] = win[opos + 1 :]
                     win[LZ77_WIN_SIZE - opos - 1:] = search
-                    return start, [s_idx, ii, opos, c], True
+                    return start, [s_idx, i, l, c], True
             opos = opos - 1
 
 
@@ -150,7 +149,7 @@ while i < len(compress_):
     temp = temp + compress_[i]
     i = i + 1
 # print(temp == data)
-print(len(temp))
+print(len(temp) / 8)
 print(len(compress_))
 # # print(compress_)
 

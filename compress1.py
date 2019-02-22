@@ -11,7 +11,7 @@ import struct
 import numpy as np
 
 def read_from_origin():
-    with open("compress_data.txt", 'r') as f:
+    with open("origin_compression.txt", 'r') as f:
         source = f.read()
     return source
 
@@ -68,18 +68,19 @@ def convert_to_byte(result):
 source = read_from_origin() ## 从原始文件读取数据 type : str
 
 print("原始数据的长度：",len(source))
+s_length = len(source)
 
 sdata = split_data(source)  # 将str每8个分成一个码子
 
 print("每8位作为一个码子长度为：",len(sdata))
 
-# with open('result_original.txt', 'wb+') as f:
-#     i = 0
-#     while i < len(sdata):
-#         wb = struct.pack('B', int(sdata[i],2))
-#         f.write(wb)
-#         i = i + 1
-# print("...result_original.txt")
+with open('result_original.txt', 'wb+') as f:
+    i = 0
+    while i < len(sdata):
+        wb = struct.pack('B', int(sdata[i],2))
+        f.write(wb)
+        i = i + 1
+print("...result_original.txt")
 
 dicts = dict(zip(refine_list(sdata), [i for i in range(len(refine_list(sdata)))]))
 
@@ -90,15 +91,22 @@ result, dicts = LWZ(sdata, dicts)
 # print(result)
 code = convert_to_byte(result)
 print("压缩后的长度：",len(code))
+c_length = len(code)
 scode = split_data(code)
 print("压缩后的码子:",len(scode))
 size = len(scode)
 with open('result.txt', 'wb+') as f:
     i = 0
     while i < size:
-        print(scode[i])
         wb = struct.pack('B', int(scode[i],2))
         f.write(wb)
         i = i + 1
 print("...保存在result.txt")
 
+with open("log/lzz_1.txt", "w+") as f:
+    # f.write("")
+    f.write("original length:")
+    f.write(str(s_length))
+    f.write("\nafter compress length:")
+    f.write(str(c_length))
+    
