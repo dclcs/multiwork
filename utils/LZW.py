@@ -13,6 +13,9 @@ def LWZ(list_bytes, dicts):
             result.append(dicts[p])
             dicts[pc] = last
             last += 1
+            if last > 4096:
+                dicts = init_convert_dic(std=256, type="LZW")
+                last = 256
             p = c
     result.append(dicts[p])
     return result, dicts
@@ -22,7 +25,6 @@ def LWZ_decompress(compress_data, dicts):
     result = []
     last = 256
     for i in range(length):
-        
         cW = compress_data[i]
         if i == 0:
             pW = cW
@@ -34,11 +36,17 @@ def LWZ_decompress(compress_data, dicts):
                 C = dicts[cW][0:8]
                 dicts[last] = P + C
                 last = last + 1
+                if last > 4096:
+                    dicts = init_convert_dic(std=256)
+                    last = 256
             else:
                 P = dicts[pW]
                 C = dicts[pW][0:8]
                 dicts[last] = P + C
                 last = last + 1
+                if last > 4096:
+                    dicts = init_convert_dic(std=256)
+                    last = 256
                 result.append(P+C)
             pW = cW
     return result

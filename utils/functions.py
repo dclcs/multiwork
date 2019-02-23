@@ -41,6 +41,8 @@ def init_convert_dic(std=64, type="LZ77"):
         if type == 'LZW':
             # dicts[i] = convert_num(i, std)
             dicts[convert_num(i, std)] = i
+        if type == 'LZW_d':
+            dicts[bin(i)[2:]] = convert_num(i, std)
         else:
             dicts[i] = convert_num(i, std)
     return dicts
@@ -62,9 +64,7 @@ def add_(list_):
     return r
 
 def generate_result(str_b):
-    print(len(str_b))
     scode,_ = split_data(str_b)
-    print(len(scode))
     size = len(scode)
     
     with open('result.txt', 'wb+') as f:
@@ -74,3 +74,12 @@ def generate_result(str_b):
             f.write(wb)
             i = i + 1
     print("...result.txt")
+
+def convert_to_codebook(dics):
+    keys = list(dics.keys())
+    values = list(dics.values())
+    codebook = []
+    for i in range(len(dics)):
+        codebook.append((str(keys[i]), values[i]))
+    return codebook
+

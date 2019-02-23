@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-from functions import *
+from utils.functions import *
+import huffman
 
-
-LZ77_WIN_SIZE = 15   #   8个码子 
+LZ77_WIN_SIZE = 256   #   8个码子 
 MAX_BIT = max_bit(LZ77_WIN_SIZE)
 data = read_from_origin()
 
-sdata = split_data(data) 
+sdata,_ = split_data(data) 
 win = ["None" for i in range(LZ77_WIN_SIZE)]
 NUM_DICTS = init_convert_dic(LZ77_WIN_SIZE)
 # cwin = sdata[s_idx : s_idx + LZ77_WIN_SIZE] 
+
 def get_table(win,start):
     '''
         在滑动窗口中，寻找与第一个码子相同的索引的列表
@@ -29,6 +30,7 @@ def compare_win(cwin, win, s_idx):
     #   匹配cwin和win的最大匹配串
     #   并且返回窗口的其实位置，长度，和未匹配串
     # print("cwin is ,", cwin)
+
     # print("win is , ", win)
     start = cwin[0]
     s_pos = 0
@@ -151,10 +153,21 @@ while i < len(compress_):
 # print(temp == data)
 print(len(temp) / 8)
 print(len(compress_))
-# # print(compress_)
-
-with open("compress_data.txt", "w") as f:
-    f.write(temp)
+count_ = {}
+for i in range(len(compress_)):
+    if compress_[i] not in count_:
+        count_[compress_[i]] = 1
+    else:
+        count_[compress_[i]] = count_[compress_[i]] + 1
+codebook = convert_to_codebook(count_)
+dic = huffman.codebook(codebook)
+str_ = ""
+for i in range(len(compress_)):
+    str_ = str_ + dic[compress_[i]]
+print(len(str_))
+# with open("compress_data.txt", "w") as f:
+#     f.write(temp)
 # with open("p_data.txt", "w") as f:
 #     f.write(pdata)
 # print(temp)
+generate_result(str_)

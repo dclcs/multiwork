@@ -1,11 +1,14 @@
 from utils.functions import *
 from utils.RLe import *
-data = read_from_origin(name="LWZ_result.txt")
+data = read_from_origin(name="st.txt")
 # data = read_from_origin()
 
 result = RLe(data)
 item = result[0]
 count = result[1]
+
+
+
 import huffman
 # dic = init_convert_dic(max(count) + 1)
 # print(max(count))
@@ -22,13 +25,8 @@ def refine_count(count_0):
         else:
             dic_count_0[ite] += 1
     return dic_count_0
-def convert_to_codebook(dics):
-    keys = list(dics.keys())
-    values = list(dics.values())
-    codebook = []
-    for i in range(len(dics)):
-        codebook.append((str(keys[i]), values[i]))
-    return codebook
+
+
 start = item[0]
 count_0 = []
 _count_0 = 0
@@ -46,6 +44,9 @@ for i in range(len(item)):
 dic_count_0 = refine_count(count_0)
 dic_count_1 = refine_count(count_1)
 
+print(dic_count_0)
+print(dic_count_1)
+
 codebook_0 = convert_to_codebook(dic_count_0)
 codebook_1 = convert_to_codebook(dic_count_1)
 # print(codebook_1)
@@ -58,7 +59,6 @@ for i in range(len(count_0)):
 str_1 = ""
 for i in range(len(count_1)):
     str_1 = str_1 + r_1[str(count_1[i])]
-
 # print(len(str_0))
 # print(len(str_1))
 # f = open("Re_str_0.txt", "w+")
@@ -73,6 +73,9 @@ elif start == '1':
     str_ = str_1 + str_0
 s_0 = len(str_0)
 s_1 = len(str_1)
+print(len(str_))
+exit()
+
 if s_0 > s_1:
     comp = "0"
     diff = s_0 - s_1
@@ -81,9 +84,9 @@ else:
     diff = s_1 - s_0
 diff = bin(diff)[2:]
 prefix = start + comp + diff
+print(len(str_))
+# f = open(".dict","w+")
+# f.write(str(r_1))
+# f.write(str(r_0))
 
-f = open(".dict","w+")
-f.write(str(r_1))
-f.write(str(r_0))
-
-generate_result(prefix+str_)
+# generate_result(prefix+str_)
