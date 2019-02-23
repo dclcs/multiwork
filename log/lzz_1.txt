@@ -1,0 +1,2 @@
+original length:271112
+after compress length:226940
